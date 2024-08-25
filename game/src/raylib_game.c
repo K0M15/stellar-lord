@@ -10,15 +10,19 @@ int main(void)
     SetTargetFPS(60);
 
     t_game game;
-    create_game(&game, 3, 10);
+    if (!create_game(&game, 3, 100))
+    {
+        fprintf(stderr, "Error initalizing the game");
+    }
 
     while (!WindowShouldClose())
     {
+        handle_click( &game );
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        for (int i = game.stars_filled; i + 1; --i)
+        for (int i = game.stars_filled; i; --i)
         {
-            draw_star(&game.stars[i]);
+            draw_star(&game.stars[i-1]);
         }
         EndDrawing();
     }

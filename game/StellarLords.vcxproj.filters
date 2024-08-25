@@ -32,5 +32,8 @@
     <ClCompile Include="ships.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="controlls.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

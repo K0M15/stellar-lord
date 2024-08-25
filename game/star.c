@@ -31,7 +31,8 @@ void destruct_star(t_star* star)
 
 void log_star(t_star* star)
 {
-    printf("Pop: %.1f   Pos:%.1f,%.1f   Ships:%d\n", star->population, star->position.x, star->position.y, star->ships);
+    printf("Pop: %.1f   Pos:%.1f,%.1f   Ships:%d\n",
+        star->population, star->position.x, star->position.y, star->ships);
 }
 
 void set_owner(t_star* star, t_player* player)

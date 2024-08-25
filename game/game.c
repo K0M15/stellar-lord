@@ -7,20 +7,26 @@
 
 #include "stellar.h"
 
-void create_game(t_game* game, int amount_players, int amount_stars)
+int create_game(t_game* game, int amount_players, int amount_stars)
 {
     game->players = malloc(sizeof(t_player) * amount_players);
+    if (game->players == NULL)
+        return 0;
     game->players_alloc = amount_players;
     game->players_filled = 0;
     game->stars = malloc(sizeof(t_star) * amount_stars);
+    if (game->stars == NULL)
+        return 0;
     game->stars_alloc = amount_stars;
     game->stars_filled = 0;
+    game->cycle = 0;
 #ifdef USE_STD_SEED
     game->seed = USE_STD_SEED;
 #else
     game->seed = time(0);
 #endif // USE_STD_SEED
     game_create_stars(game, SCREEN_WIDTH, SCREEN_HEIGHT);
+    return 1;
 }
 
 void cycle_game(t_game* game)
@@ -30,6 +36,7 @@ void cycle_game(t_game* game)
     {
         cycle_star(&game->stars[i]);
     }
+    game->cycle++;
 }
 
 void game_create_stars(t_game* game, float max_width, float max_height)
