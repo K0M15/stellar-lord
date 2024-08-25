@@ -20,7 +20,7 @@ void create_game(t_game* game, int amount_players, int amount_stars)
 #else
     game->seed = time(0);
 #endif // USE_STD_SEED
-    game_create_stars(game, 1000, 1000);
+    game_create_stars(game, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 void cycle_game(t_game* game)
@@ -41,8 +41,8 @@ void game_create_stars(t_game* game, float max_width, float max_height)
 
     while (stars_created < game->stars_alloc)
     {
-        pos.x = fmod((float)rand(), max_width);
-        pos.y = fmod((float)rand(), max_height);
+        pos.x = (float)fmod((float)rand(), max_width);
+        pos.y = (float)fmod((float)rand(), max_height);
         generate_star(&game->stars[stars_created], pos, (float)(rand() % 1500));
         stars_created++;
     }
@@ -83,7 +83,7 @@ void game_display_star_stats(t_game* game)
 {
     for (int i = game->stars_filled; i + 1; --i)
     {
-        display_star(&game->stars[i]);
+        log_star(&game->stars[i]);
     }
 }
 

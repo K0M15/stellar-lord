@@ -13,9 +13,10 @@
 # include <math.h>
 # include <time.h>
 # include <assert.h>
+#include <raylib.h>
 
 # define POPULATION_FACTOR      0.003
-# define MAX_POPULATION_START   1500
+# define MAX_POPULATION_START   150
 # define USE_STD_SEED           0xAFFEAFFE
 # define GAME_NAME              "Stellar Lord"
 
@@ -24,12 +25,7 @@
 
 struct s_player;
 
-typedef struct s_position
-{
-    float   x;
-    float   y;
-}   t_position;
-
+typedef Vector2 t_position;
 
 typedef struct s_star
 {
@@ -55,14 +51,22 @@ typedef struct s_action_log
     struct s_action_item* last;
 }   t_action_log;
 
+enum e_player_type
+{
+    AI,
+    HUMAN
+};
+
 typedef struct s_player
 {
-    t_star* home;
-    char* name;
-    int         color;
+    t_star              *home;
+    char                *name;
+    Color               color;
+    enum e_player_type  type;
 }   t_player;
 
-typedef struct s_game {
+typedef struct s_game
+{
     t_player* players;
     int         players_filled;
     int         players_alloc;
@@ -70,27 +74,36 @@ typedef struct s_game {
     int         stars_filled;
     int         stars_alloc;
     int         seed;
+    int         cycle;
 }   t_game;
 
-typedef struct s_ship_cluster {
+typedef struct s_ship_cluster
+{
     int         amount;
     t_player    owner;
     t_star      origin;
     t_star      target;
-}   s_ship_cluster;
+    int         cycle_start;
+}   t_ship_cluster;
 
-t_star* generate_star(t_star* star, t_position pos, float population);
-void cycle_star(t_star* star);
-void destruct_star(t_star* star);
-void display_star(t_star* star);
-void set_owner(t_star* star, t_player* player);
+t_star*     generate_star(t_star* star, t_position pos, float population);
+void        cycle_star(t_star* star);
+void        destruct_star(t_star* star);
+void        log_star(t_star* star);
+void        set_owner(t_star* star, t_player* player);
 
 
-void create_game(t_game* game, int amount_players, int amount_stars);
-void cycle_game(t_game* game);
-void game_create_stars(t_game* game, float max_width, float max_height);
-t_player* game_request_player(t_game* game, char* player_name);
-void destroy_game(t_game* game);
-void game_display_all_stats(t_game* game);
+void        create_game(t_game* game, int amount_players, int amount_stars);
+void        cycle_game(t_game* game);
+void        game_create_stars(t_game* game, float max_width, float max_height);
+t_player*   game_request_player(t_game* game, char* player_name);
+void        destroy_game(t_game* game);
+void        game_display_all_stats(t_game* game);
+
+t_ship_cluster* send_ships(t_star* origin, t_star* target, t_game* game);
+int             check_cluster_target_range(t_star* origin, t_star* target);
+
+void draw_star(t_star *star);
+
 
 #endif /* STELLAR_H */

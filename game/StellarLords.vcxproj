@@ -268,7 +268,10 @@
     <ClInclude Include="stellar.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="draw.c" />
     <ClCompile Include="game.c" />
+    <ClCompile Include="map.c" />
+    <ClCompile Include="ships.c" />
     <ClCompile Include="src\raylib_game.c" />
     <ClCompile Include="star.c" />
   </ItemGroup>

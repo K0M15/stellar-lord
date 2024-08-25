@@ -29,7 +29,7 @@ void destruct_star(t_star* star)
     free(star);
 }
 
-void display_star(t_star* star)
+void log_star(t_star* star)
 {
     printf("Pop: %.1f   Pos:%.1f,%.1f   Ships:%d\n", star->population, star->position.x, star->position.y, star->ships);
 }
