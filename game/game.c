@@ -61,17 +61,25 @@ void game_create_stars(t_game* game, float max_width, float max_height)
 t_player* game_request_player(t_game* game, char* player_name)
 {
     // check if a new player is possible
-
+    if (game->players_filled >= game->players_alloc)
+        return NULL;
+    t_player* player = &game->players[game->players_filled];
+    player->name = strdup(player_name);
     // get a possible star, far away from other people
-
+    t_star* star = get_new_homestar(game);
     // set the population to HOMESTAR_START_POPULATION
-
+    star->owner = player;
+    star->population = HOMESTAR_START_POPULATION;
+    star->ships = 1;
     // pick a color, return player handle.
-    assert(0);
+    player->color = player_colors[game->players_filled % PLAYER_COLOR_AMOUNT];
+    game->players_filled++;
 }
 
 void game_remove_player(t_game* game, t_player* player)
-{}
+{ 
+    assert(0);
+}
 
 void destroy_game(t_game* game)
 {

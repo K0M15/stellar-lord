@@ -18,10 +18,14 @@
 
 # define MAX_SHIP_RANGE         10.0
 # define SHIP_SPEED             2.0
+
 # define POPULATION_FACTOR      0.003
 # define MAX_POPULATION_START   150
+# define HOMESTAR_START_POPULATION 20
+
 # define USE_STD_SEED           0xAFFEAFFE
 # define GAME_NAME              "Stellar Lord"
+# define MIN_PLAYER_HOME_DIST   250
 
 # define SCREEN_WIDTH            800*2
 # define SCREEN_HEIGHT           600*2
@@ -29,6 +33,18 @@
 struct s_player;
 
 typedef Vector2 t_position;
+
+
+# define PLAYER_COLOR_AMOUNT    7
+const Color player_colors[PLAYER_COLOR_AMOUNT] = {
+    { 230, 41, 55, 255 },
+    { 0, 158, 147, 255 },
+    { 0, 141, 241, 255 },
+    { 255, 203, 0, 255 },
+    { 135, 60, 190, 255 },
+    { 255, 109, 194, 255 },
+    { 127, 106, 79, 255 },
+};
 
 typedef struct s_star
 {
@@ -68,6 +84,21 @@ typedef struct s_player
     enum e_player_type  type;
 }   t_player;
 
+typedef struct s_ship_cluster
+{
+    int             amount;
+    t_player        *owner;
+    t_star          *origin;
+    t_star          *target;
+    unsigned long   cycle_start;
+}   t_ship_cluster;
+
+typedef struct s_cluster_list
+{
+    t_ship_cluster         data;
+    struct s_cluster_list*  next;
+}   t_cluster_list;
+
 typedef struct s_game
 {
     t_player* players;
@@ -78,16 +109,9 @@ typedef struct s_game
     int             stars_alloc;
     int             seed;
     unsigned long   cycle;
+    t_cluster_list* clusters;
 }   t_game;
 
-typedef struct s_ship_cluster
-{
-    int             amount;
-    t_player        *owner;
-    t_star          *origin;
-    t_star          *target;
-    unsigned long   cycle_start;
-}   t_ship_cluster;
 
 t_star*     generate_star(t_star* star, t_position pos, float population);
 void        cycle_star(t_star* star);
@@ -103,13 +127,19 @@ t_player*   game_request_player(t_game* game, char* player_name);
 void        destroy_game(t_game* game);
 void        game_display_all_stats(t_game* game);
 
-t_ship_cluster* send_ships(t_star* origin, t_star* target, t_game* game);
-int             check_cluster_target_range(t_star* origin, t_star* target);
+t_ship_cluster* send_ships(int ship_amount, t_star* origin, t_star* target, t_game* game);
+int             check_target_range(t_star* origin, t_star* target);
+t_cluster_list* new_list();
+t_cluster_list* append(t_cluster_list* list, t_ship_cluster data);
+t_cluster_list* remove_if(t_cluster_list* beginn, t_ship_cluster* data, int(*filter)(t_ship_cluster* cluster, t_ship_cluster* cmp));
 
 void    draw_star(t_star *star);
 int     calc_star_size(t_star* star);
 
 void        handle_click(t_game *game);
 t_star*     get_star_by_pos(t_game* game, Vector2 click);
+
+char*   strdup(const char* src);
+void    memset(void* data, char elem, unsigned int size);
 
 #endif /* STELLAR_H */

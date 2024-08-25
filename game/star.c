@@ -35,6 +35,26 @@ void log_star(t_star* star)
         star->population, star->position.x, star->position.y, star->ships);
 }
 
+t_star* get_new_homestar(t_game* game)
+{
+    int is_possible;
+    for (int i = game->stars_filled; i; --i)
+    {
+        is_possible = 1;
+        for (int j = game->players_filled; i; --i)
+        {
+            if (Vector2Distance(game->players[j].home->position,
+                    game->stars[i].position) < MIN_PLAYER_HOME_DIST)
+            {
+                is_possible = 0;
+                break;
+            }
+        }
+        if (is_possible)
+            return &game->stars[i];
+    }
+}
+
 void set_owner(t_star* star, t_player* player)
 {
     star->owner = player;
