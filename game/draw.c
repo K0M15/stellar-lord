@@ -14,14 +14,16 @@ int calc_star_size(t_star* star)
 
 void draw_star(t_star* star)
 {
-	if (star->owner->home == star)
+	if (star->owner != NULL)
 	{
-		DrawRect((int)star->position.x, (int)star->position.y - 1, 1, 3, star->owner->color);
-		DrawRect((int)star->position.x - 1, (int)star->position.y, 3, 1, star->owner->color);
-	}
-	if(star->owner != NULL)
+			if (star->owner->home == star)
+			{
+				DrawRectangle((int)star->position.x, (int)star->position.y - 1, 1, 3, RAYWHITE);
+				DrawRectangle((int)star->position.x - 1, (int)star->position.y, 3, 1, RAYWHITE);
+			}
 		DrawCircle((int)star->position.x,
 			(int)star->position.y, calc_star_size(star), star->owner->color);
+	}
 	else
 		DrawCircle((int)star->position.x,
 			(int)star->position.y, calc_star_size(star), DARKGRAY);

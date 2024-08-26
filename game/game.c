@@ -66,7 +66,8 @@ t_player* game_request_player(t_game* game, char* player_name)
     t_player* player = &game->players[game->players_filled];
     player->name = strdup(player_name);
     // get a possible star, far away from other people
-    t_star* star = get_new_homestar(game);
+    t_star* star;
+    get_new_homestar(game, &star);
     // set the population to HOMESTAR_START_POPULATION
     star->owner = player;
     star->population = HOMESTAR_START_POPULATION;

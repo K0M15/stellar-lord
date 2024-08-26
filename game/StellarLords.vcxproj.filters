@@ -14,25 +14,25 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\raylib_game.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="game.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="star.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="map.c">
+    <ClCompile Include="controlls.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="draw.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="game.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="map.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="ships.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="controlls.c">
+    <ClCompile Include="src\raylib_game.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="star.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

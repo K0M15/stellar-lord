@@ -31,17 +31,18 @@ void destruct_star(t_star* star)
 
 void log_star(t_star* star)
 {
-    printf("Pop: %.1f   Pos:%.1f,%.1f   Ships:%d\n",
-        star->population, star->position.x, star->position.y, star->ships);
+    printf("Pop: %.1f   Pos:%.1f,%.1f   Ships:%d    Owner: %s\n",
+        star->population, star->position.x, star->position.y, star->ships, star->owner->name);
 }
 
-t_star* get_new_homestar(t_game* game)
+void get_new_homestar(t_game* game, t_star** star)
 {
-    int is_possible;
-    for (int i = game->stars_filled; i; --i)
+    int is_possible, j, i = 0;
+    while (i < game->stars_filled)
     {
         is_possible = 1;
-        for (int j = game->players_filled; i; --i)
+        j = 0;
+        while (j < game->players_filled)
         {
             if (Vector2Distance(game->players[j].home->position,
                     game->stars[i].position) < MIN_PLAYER_HOME_DIST)
@@ -49,9 +50,14 @@ t_star* get_new_homestar(t_game* game)
                 is_possible = 0;
                 break;
             }
+            j++;
         }
-        if (is_possible)
-            return &game->stars[i];
+        if (is_possible && game->stars[i].owner == NULL)
+        {
+            *star = &game->stars[i];
+            return;
+        }
+        i++;
     }
 }
 

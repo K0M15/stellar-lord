@@ -14,7 +14,7 @@ int main(void)
     {
         fprintf(stderr, "Error initalizing the game");
     }
-
+    t_player* player = game_request_player(&game, "Alain");
     while (!WindowShouldClose())
     {
         handle_click( &game );

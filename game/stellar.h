@@ -36,7 +36,7 @@ typedef Vector2 t_position;
 
 
 # define PLAYER_COLOR_AMOUNT    7
-const Color player_colors[PLAYER_COLOR_AMOUNT] = {
+static const Color player_colors[PLAYER_COLOR_AMOUNT] = {
     { 230, 41, 55, 255 },
     { 0, 158, 147, 255 },
     { 0, 141, 241, 255 },
@@ -118,6 +118,8 @@ void        cycle_star(t_star* star);
 void        destruct_star(t_star* star);
 void        log_star(t_star* star);
 void        set_owner(t_star* star, t_player* player);
+void        get_new_homestar(t_game* game, t_star** star);
+
 
 
 int         create_game(t_game* game, int amount_players, int amount_stars);
