@@ -278,6 +278,7 @@
     <ClCompile Include="src\raylib_game.c" />
     <ClCompile Include="star.c" />
     <ClCompile Include="ui.c" />
+    <ClCompile Include="war.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\raylib-master\raylib.vcxproj">

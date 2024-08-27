@@ -44,5 +44,8 @@
     <ClCompile Include="draw_ui.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="war.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

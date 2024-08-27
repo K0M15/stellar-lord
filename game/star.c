@@ -23,7 +23,7 @@ void cycle_star(t_star* star)
     //TODO add handler for overflow
     star->population *= POPULATION_FACTOR + 1;
     Clamp(star->population, 0, MAX_POPULATION);
-    star->ships += (star->owner != NULL) * (star->population * 0.005 + 1);
+    star->ships += ((star->owner != NULL) * (star->population * 0.005)) + 1;
 }
 
 void destruct_star(t_star* star)

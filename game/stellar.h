@@ -21,7 +21,7 @@
 # define SHIP_SPEED             2.0
 
 # define POPULATION_FACTOR          0.00003
-# define MAX_POPULATION_START       150
+# define MAX_POPULATION_START       15
 # define HOMESTAR_START_POPULATION  20
 # define MAX_POPULATION             1000
 
@@ -137,6 +137,7 @@ t_cluster_list* new_list();
 t_cluster_list* append(t_cluster_list** list, t_ship_cluster data);
 t_cluster_list* remove_if(t_cluster_list* beginn, t_ship_cluster* data, int(*filter)(t_ship_cluster* cluster, t_ship_cluster* cmp));
 t_position      get_cluster_pos(t_ship_cluster* cluster, int cycle);
+void            game_handle_clusters(t_game* game);
 
 void    draw_star(t_star *star);
 int     calc_star_size(t_star* star);

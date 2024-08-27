@@ -43,12 +43,13 @@ t_cluster_list* new_list()
 		return NULL;
 	memset(&(list->data), 0, sizeof(t_ship_cluster));
 	list->next = NULL;
+	return list;
 }
 
 t_cluster_list* append(t_cluster_list **list, t_ship_cluster data)
 {
 	t_cluster_list* element = new_list();
-	t_cluster_list* buffer = list;
+	t_cluster_list* buffer = *list;
 	if (element == NULL)
 		return NULL;
 	element->data = data;
@@ -57,7 +58,7 @@ t_cluster_list* append(t_cluster_list **list, t_ship_cluster data)
 		*list = element;
 		return element;
 	}
-	while (buffer->next != NULL)
+	while (buffer->next)
 		buffer = buffer->next;
 	buffer->next = element;
 	return element;
@@ -86,4 +87,44 @@ t_cluster_list* remove_if(t_cluster_list* beginn, t_ship_cluster* data ,int(*fil
 		current = last->next;
 	}
 	return beginn;
+}
+
+void game_handle_clusters(t_game* game)
+{
+	t_cluster_list* list = game->clusters;
+	t_cluster_list* last = NULL;
+	while (list != NULL)
+	{
+		if (list->data.cycle_start +
+			Vector2Distance(list->data.origin->position,
+				list->data.target->position) / SHIP_SPEED < game->cycle)
+		{
+			if (list->data.target->owner == NULL)
+			{
+				list->data.target->owner = list->data.owner;
+				if (last != NULL)
+				{
+					last->next = list->next;
+					free(list);
+					list = last->next;
+					continue ;
+				}
+				else
+				{
+					game->clusters = list->next;
+					free(list);
+					if (game->clusters == NULL)
+						list = NULL;
+					else
+						list = game->clusters->next;
+					continue;
+				}
+			}
+			else
+				assert(0);
+				//execute_war(cluster)
+		}
+		last = list;
+		list = list->next;
+	}
 }

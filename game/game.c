@@ -37,27 +37,12 @@ int create_game(t_game* game, int amount_players, int amount_stars)
 void cycle_game(t_game* game)
 {
     // do ship stuff
-    for (int i = game->stars_filled; i; --i)
+    for (int i = 0; game->stars_filled > i; i++)
     {
         cycle_star(&game->stars[i]);
     }
     game->cycle++;
-}
-
-void game_handle_clusters(t_game* game)
-{
-    t_cluster_list* list = game->clusters;
-    while (list != NULL)
-    {
-        if(list->data.cycle_start + 
-            Vector2Distance(list->data.origin->position,
-                list->data.target->position) / SHIP_SPEED > game->cycle)
-        {
-            assert(0);
-            //execute_war(cluster)
-        }
-        list = list->next;
-    }
+    game_handle_clusters(game);
 }
 
 void game_create_stars(t_game* game, float max_width, float max_height)
@@ -71,7 +56,7 @@ void game_create_stars(t_game* game, float max_width, float max_height)
     {
         pos.x = (float)fmod((float)rand(), max_width);
         pos.y = (float)fmod((float)rand(), max_height);
-        generate_star(&game->stars[stars_created], pos, (float)(rand() % 1500));
+        generate_star(&game->stars[stars_created], pos, (float)(rand() % MAX_POPULATION_START));
         stars_created++;
     }
     //TODO: Decide what to do with to close stars.

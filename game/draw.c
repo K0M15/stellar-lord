@@ -9,7 +9,7 @@
 
 int calc_star_size(t_star* star)
 {
-	return Clamp((star->population / 150), 0, 8);
+	return Clamp((star->population / 150), 2, 5);
 }
 
 void draw_star(t_star* star)
