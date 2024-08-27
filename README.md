@@ -16,3 +16,5 @@ Compile the game 🍍
 
 This is the first game in some years I tried to create.
 Currently, not much is functional.
+
+Link to original: https://archive.org/details/StellarEmpires_1020
