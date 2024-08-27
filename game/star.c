@@ -12,6 +12,7 @@ t_star* generate_star(t_star* result, t_position pos, float population)
     result->position.x = pos.x;
     result->position.y = pos.y;
     result->population = population;
+    result->ships = 0;
     result->owner = NULL;
 
     return (result);
@@ -21,6 +22,7 @@ void cycle_star(t_star* star)
 {
     //TODO add handler for overflow
     star->population *= POPULATION_FACTOR + 1;
+    Clamp(star->population, 0, MAX_POPULATION);
     star->ships += (star->owner != NULL) * (star->population * 0.005 + 1);
 }
 
@@ -32,7 +34,8 @@ void destruct_star(t_star* star)
 void log_star(t_star* star)
 {
     printf("Pop: %.1f   Pos:%.1f,%.1f   Ships:%d    Owner: %s\n",
-        star->population, star->position.x, star->position.y, star->ships, star->owner->name);
+        star->population, star->position.x, star->position.y,
+        star->ships, star->owner == NULL?NULL: star->owner->name);
 }
 
 void get_new_homestar(t_game* game, t_star** star)

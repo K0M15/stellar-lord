@@ -266,15 +266,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="stellar.h" />
+    <ClInclude Include="ui.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="controlls.c" />
     <ClCompile Include="draw.c" />
+    <ClCompile Include="draw_ui.c" />
     <ClCompile Include="game.c" />
     <ClCompile Include="map.c" />
     <ClCompile Include="ships.c" />
     <ClCompile Include="src\raylib_game.c" />
     <ClCompile Include="star.c" />
+    <ClCompile Include="ui.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\raylib-master\raylib.vcxproj">

@@ -9,32 +9,47 @@
 
 void handle_click(t_game *game)
 {
-	static t_star *is_selected;
-
-	if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && is_selected == NULL)
+	bool mouse_pressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
+	if (!mouse_pressed)
+		return ;
+	Vector2 vec = GetMousePosition();
+	t_star* s = get_star_by_pos(game, vec);
+	if (vec.y > SCREEN_HEIGHT)
 	{
-		Vector2 vec = GetMousePosition();
-		t_star* s = get_star_by_pos(game, vec);
+		get_ui_action(game->ui, vec);
+	}
+	if (mouse_pressed && game->selected_star == NULL)
+	{
 		if (s != NULL)
 		{
-			is_selected = s;
+			game->selected_star= s;
 			log_star(s);
 		}
 	}
+	else if (mouse_pressed && s != NULL && game->selected_star != NULL)
+	{
+		t_ship_cluster* ships = send_ships(game->selected_star->ships, game->selected_star, s, game);
+		s = NULL;
+		game->selected_star = NULL;
+	}
 	else
 	{
-		is_selected = NULL;
+		game->selected_star = NULL;
 	}
 }
 
 t_star* get_star_by_pos(t_game* game, Vector2 click)
 {
 	//if to slow: optimize using quad trees
-	for (int i = game->stars_filled; i; --i)
+	for (int i = 0; i < game->stars_filled; i++)
 	{
-		if (Vector2Distance(game->stars[i - 1].position, click)
-			<= calc_star_size(&game->stars[i - 1]))
-			return &game->stars[i - 1];
+		if(game->stars[i].owner != NULL)
+			if (Vector2Distance(game->stars[i].position, click)
+				<= calc_star_size(&game->stars[i])+3)
+				return &game->stars[i];
+		if (Vector2Distance(game->stars[i].position, click)
+			<= calc_star_size(&game->stars[i]))
+			return &game->stars[i];
 	}
 	return NULL;
 }

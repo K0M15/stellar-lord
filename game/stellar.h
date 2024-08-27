@@ -15,13 +15,15 @@
 # include <assert.h>
 # include <raylib.h>
 # include <raymath.h>
+# include <ui.h>
 
-# define MAX_SHIP_RANGE         10.0
+# define MAX_SHIP_RANGE         100.0
 # define SHIP_SPEED             2.0
 
-# define POPULATION_FACTOR      0.003
-# define MAX_POPULATION_START   150
-# define HOMESTAR_START_POPULATION 20
+# define POPULATION_FACTOR          0.00003
+# define MAX_POPULATION_START       150
+# define HOMESTAR_START_POPULATION  20
+# define MAX_POPULATION             1000
 
 # define USE_STD_SEED           0xAFFEAFFE
 # define GAME_NAME              "Stellar Lord"
@@ -110,6 +112,8 @@ typedef struct s_game
     int             seed;
     unsigned long   cycle;
     t_cluster_list* clusters;
+    t_ui*           ui;
+    t_star*         selected_star;
 }   t_game;
 
 
@@ -119,8 +123,6 @@ void        destruct_star(t_star* star);
 void        log_star(t_star* star);
 void        set_owner(t_star* star, t_player* player);
 void        get_new_homestar(t_game* game, t_star** star);
-
-
 
 int         create_game(t_game* game, int amount_players, int amount_stars);
 void        cycle_game(t_game* game);
@@ -132,11 +134,16 @@ void        game_display_all_stats(t_game* game);
 t_ship_cluster* send_ships(int ship_amount, t_star* origin, t_star* target, t_game* game);
 int             check_target_range(t_star* origin, t_star* target);
 t_cluster_list* new_list();
-t_cluster_list* append(t_cluster_list* list, t_ship_cluster data);
+t_cluster_list* append(t_cluster_list** list, t_ship_cluster data);
 t_cluster_list* remove_if(t_cluster_list* beginn, t_ship_cluster* data, int(*filter)(t_ship_cluster* cluster, t_ship_cluster* cmp));
+t_position      get_cluster_pos(t_ship_cluster* cluster, int cycle);
 
 void    draw_star(t_star *star);
 int     calc_star_size(t_star* star);
+void    draw_button(t_button* button);
+void    draw_ship_cluster(t_ship_cluster* cluster);
+
+void    execute_war(t_ship_cluster *cluster);
 
 void        handle_click(t_game *game);
 t_star*     get_star_by_pos(t_game* game, Vector2 click);
@@ -144,4 +151,5 @@ t_star*     get_star_by_pos(t_game* game, Vector2 click);
 char*   strdup(const char* src);
 void    memset(void* data, char elem, unsigned int size);
 
+t_game* get_game();
 #endif /* STELLAR_H */

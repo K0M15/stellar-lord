@@ -26,6 +26,11 @@ int create_game(t_game* game, int amount_players, int amount_stars)
     game->seed = time(0);
 #endif // USE_STD_SEED
     game_create_stars(game, SCREEN_WIDTH, SCREEN_HEIGHT);
+    game->ui = malloc(sizeof(t_ui));
+    if (game->ui == NULL)
+        return 0;
+    create_ui(game->ui);
+    game->selected_star = NULL;
     return 1;
 }
 
@@ -37,6 +42,22 @@ void cycle_game(t_game* game)
         cycle_star(&game->stars[i]);
     }
     game->cycle++;
+}
+
+void game_handle_clusters(t_game* game)
+{
+    t_cluster_list* list = game->clusters;
+    while (list != NULL)
+    {
+        if(list->data.cycle_start + 
+            Vector2Distance(list->data.origin->position,
+                list->data.target->position) / SHIP_SPEED > game->cycle)
+        {
+            assert(0);
+            //execute_war(cluster)
+        }
+        list = list->next;
+    }
 }
 
 void game_create_stars(t_game* game, float max_width, float max_height)

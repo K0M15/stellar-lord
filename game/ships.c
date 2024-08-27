@@ -15,10 +15,12 @@ t_ship_cluster* send_ships(int ship_amount, t_star* origin, t_star* target, t_ga
 	if (cluster == NULL)
 		return NULL;
 	cluster->amount = ship_amount;
+	origin->ships -= ship_amount;
 	cluster->cycle_start = game->cycle;
 	cluster->origin = origin;
 	cluster->target = target;
 	cluster->owner = origin->owner;
+	append(&game->clusters, *cluster); //rename this!
 	return cluster;
 }
 
@@ -43,13 +45,21 @@ t_cluster_list* new_list()
 	list->next = NULL;
 }
 
-t_cluster_list* append(t_cluster_list *list, t_ship_cluster data)
+t_cluster_list* append(t_cluster_list **list, t_ship_cluster data)
 {
 	t_cluster_list* element = new_list();
+	t_cluster_list* buffer = list;
 	if (element == NULL)
 		return NULL;
 	element->data = data;
-	list->next = element;
+	if (*list == NULL)
+	{
+		*list = element;
+		return element;
+	}
+	while (buffer->next != NULL)
+		buffer = buffer->next;
+	buffer->next = element;
 	return element;
 }
 
