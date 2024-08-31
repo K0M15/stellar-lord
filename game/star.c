@@ -47,7 +47,9 @@ void get_new_homestar(t_game* game, t_star** star)
         j = 0;
         while (j < game->players_filled)
         {
-            if (Vector2Distance(game->players[j].home->position,
+            if (game->players[j].home == &game->stars[i])
+                is_possible = 0;
+            else if (Vector2Distance(game->players[j].home->position,
                     game->stars[i].position) < MIN_PLAYER_HOME_DIST)
             {
                 is_possible = 0;
@@ -64,7 +66,7 @@ void get_new_homestar(t_game* game, t_star** star)
     }
 }
 
-void set_owner(t_star* star, t_player* player)
+void star_set_owner(t_star* star, t_player* player)
 {
     star->owner = player;
 }

@@ -52,7 +52,7 @@ typedef struct s_star
 {
     t_position      position;
     float           population;
-    unsigned int    ships;
+    int             ships;
     struct s_player* owner;
 }   t_star;
 
@@ -121,7 +121,7 @@ t_star*     generate_star(t_star* star, t_position pos, float population);
 void        cycle_star(t_star* star);
 void        destruct_star(t_star* star);
 void        log_star(t_star* star);
-void        set_owner(t_star* star, t_player* player);
+void        star_set_owner(t_star* star, t_player* player);
 void        get_new_homestar(t_game* game, t_star** star);
 
 int         create_game(t_game* game, int amount_players, int amount_stars);
@@ -139,7 +139,7 @@ t_cluster_list* remove_if(t_cluster_list* beginn, t_ship_cluster* data, int(*fil
 t_position      get_cluster_pos(t_ship_cluster* cluster, int cycle);
 void            game_handle_clusters(t_game* game);
 
-void    draw_star(t_star *star);
+void    draw_star(t_star *star, Vector2 mouse);
 int     calc_star_size(t_star* star);
 void    draw_button(t_button* button);
 void    draw_ship_cluster(t_ship_cluster* cluster);

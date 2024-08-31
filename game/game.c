@@ -78,6 +78,7 @@ t_player* game_request_player(t_game* game, char* player_name)
     star->owner = player;
     star->population = HOMESTAR_START_POPULATION;
     star->ships = 1;
+    player->home = star;
     // pick a color, return player handle.
     player->color = player_colors[game->players_filled % PLAYER_COLOR_AMOUNT];
     game->players_filled++;

@@ -99,30 +99,30 @@ void game_handle_clusters(t_game* game)
 			Vector2Distance(list->data.origin->position,
 				list->data.target->position) / SHIP_SPEED < game->cycle)
 		{
-			if (list->data.target->owner == NULL)
-			{
-				list->data.target->owner = list->data.owner;
-				if (last != NULL)
-				{
-					last->next = list->next;
-					free(list);
-					list = last->next;
-					continue ;
-				}
+			if (list->data.target->owner != NULL)
+				if (list->data.target->owner == list->data.owner)
+					list->data.target->ships += list->data.amount;
 				else
-				{
-					game->clusters = list->next;
-					free(list);
-					if (game->clusters == NULL)
-						list = NULL;
-					else
-						list = game->clusters->next;
-					continue;
-				}
+					execute_war(&list->data);
+			else
+				list->data.target->owner = list->data.owner;
+			if (last != NULL)
+			{
+				last->next = list->next;
+				free(list);
+				list = last->next;
+				continue;
 			}
 			else
-				assert(0);
-				//execute_war(cluster)
+			{
+				game->clusters = list->next;
+				free(list);
+				if (game->clusters == NULL)
+					list = NULL;
+				else
+					list = game->clusters->next;
+				continue;
+			}
 		}
 		last = list;
 		list = list->next;
