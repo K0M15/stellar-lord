@@ -28,7 +28,8 @@ void handle_click(t_game *game)
 	}
 	else if (mouse_pressed && s != NULL && game->selected_star != NULL)
 	{
-		t_ship_cluster* ships = send_ships(game->selected_star->ships, game->selected_star, s, game);
+		t_ship_cluster* ships = send_ships(game->selected_star->ships,
+			game->selected_star, s, game);
 		s = NULL;
 		game->selected_star = NULL;
 	}
@@ -43,12 +44,8 @@ t_star* get_star_by_pos(t_game* game, Vector2 click)
 	//if to slow: optimize using quad trees
 	for (int i = 0; i < game->stars_filled; i++)
 	{
-		if(game->stars[i].owner != NULL)
-			if (Vector2Distance(game->stars[i].position, click)
-				<= calc_star_size(&game->stars[i])+3)
-				return &game->stars[i];
 		if (Vector2Distance(game->stars[i].position, click)
-			<= calc_star_size(&game->stars[i]))
+			<= calc_star_size(&game->stars[i])+3)
 			return &game->stars[i];
 	}
 	return NULL;
